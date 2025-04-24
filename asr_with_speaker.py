@@ -10,7 +10,8 @@ from pyannote.audio import Pipeline
 import whisper
 
 width = shutil.get_terminal_size().columns
-
+HF_TOKEN = "Hugging_Face_ReadToken" #Replace with your Hugging Face token
+CHUNK_DURATION = 10  # in seconds 
 
 def diarize_and_transcribe(audio_path):
     tmpdir = tempfile.mkdtemp()
@@ -32,7 +33,7 @@ def diarize_and_transcribe(audio_path):
     # Whisper-Modell laden
     model = whisper.load_model("large") # Other Models are 'medium', 'base', 'small'
     print("-" * width)
-    print(f"[*] Lade Whisper-Modell...... {modle}")
+    print(f"[*] Lade Whisper-Modell...... {model}")
     print()
     
 
@@ -79,7 +80,6 @@ if __name__ == "__main__":
     diarize_and_transcribe(path)
 
 # Konfiguration
-HF_TOKEN = "Hugging_Face_ReadToken" #Replace with your Hugging Face token
-CHUNK_DURATION = 10  # in seconds 
+
 OUTPUT_TXT = f"{output_name}.txt"
 OUTPUT_JSON = f"{output_name}-1.json"
