@@ -30,10 +30,11 @@ def diarize_and_transcribe(audio_path):
     diar_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization", use_auth_token=HF_TOKEN)
 
     # Whisper-Modell laden
+    model = whisper.load_model("large") # Other Models are 'medium', 'base', 'small'
     print("-" * width)
-    print("[*] Lade Whisper-Modell...")
+    print(f"[*] Lade Whisper-Modell...... {modle}")
     print()
-    model = whisper.load_model("large")
+    
 
     full_transcript = []
     json_output = []
