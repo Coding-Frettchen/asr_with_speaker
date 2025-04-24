@@ -9,6 +9,7 @@ from tqdm import tqdm
 from pyannote.audio import Pipeline
 import whisper
 
+width = shutil.get_terminal_size().columns
 
 
 def diarize_and_transcribe(audio_path):
@@ -16,16 +17,22 @@ def diarize_and_transcribe(audio_path):
     chunk_dir = os.path.join(tmpdir, "chunks")
     os.makedirs(chunk_dir, exist_ok=True)
 
+    print("-" * width)
     print("[*] Audio wird in Stücke geteilt ...")
+    print()
     os.system(f"ffmpeg -i '{audio_path}' -f segment -segment_time {CHUNK_DURATION} "
               f"-ar 16000 -ac 1 -sample_fmt s16 -c:a pcm_s16le '{chunk_dir}/chunk_%03d.wav'")
 
     # Sprecher-Diarisation vorbereiten
+    print("-" * width)
     print("[*] Lade Sprecher-Diarisation...")
+    print()
     diar_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization", use_auth_token=HF_TOKEN)
 
     # Whisper-Modell laden
+    print("-" * width)
     print("[*] Lade Whisper-Modell...")
+    print()
     model = whisper.load_model("large")
 
     full_transcript = []
@@ -61,6 +68,8 @@ def diarize_and_transcribe(audio_path):
         json.dump(json_output, f, indent=2, ensure_ascii=False)
 
     shutil.rmtree(tmpdir)
+    
+    print("-" * width)
     print(f"[*] Transkription abgeschlossen. Ergebnisse in '{OUTPUT_TXT}' und '{OUTPUT_JSON}' gespeichert.")
 
 if __name__ == "__main__":
