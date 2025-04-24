@@ -1,0 +1,11 @@
+whisper @ git+https://github.com/openai/whisper.git
+pyannote.audio==3.1.1
+torch>=2.0.0
+torchaudio>=2.1.0
+ffmpeg-python
+numpy<2.0  # wegen Kompatibilität mit pyannote/audio-Modellen
+soundfile
+scipy
+tqdm
+huggingface-hub
+requests
